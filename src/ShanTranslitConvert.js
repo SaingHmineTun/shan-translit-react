@@ -1,3 +1,139 @@
+import syllable_break from "./ShanSyllableBreak";
+
+export function taiToEng(input) {
+        console.log(input)
+        // Syllable break the input
+        let output = syllable_break(input);
+        console.log(output)
+        // "ၵ" "ၵျ" "တြ" ႁႂ်ႈပဵတ် ka kya tra
+        output = output.replaceAll(/^([\u1075-\u1081\u1004\u101e\u1010\u1011\u1015\u1019\u101a\u101b\u101c\u101d\u1022])([\u103b\u103c])?$/g, "$1$2a");
+
+        // Without arrpot, arr yau, tang, tang sung, tit nin, tit sung, a sai, a tang, e sai, e tang, kwai, hwai, tay tay tin,
+        output = output.replaceAll(/(\u0020)([\u1075-\u1081\u1004\u101e\u1010\u1011\u1015\u1019\u101a\u101b\u101c\u101d\u1022\u103b\u103c])([\u103b\u103c])?(?![\u1062\u1083\u102d\u102e\u102f\u1030\u1031\u1035\u1084\u1085\u1082\u103d\u1036\u1086\u101d\u107a\u1075\u1010\u1015\u1004\u1019\u107c\u103b\u103c])/g, "$1$2$3a");
+        output = output.replaceAll(/([\u1075-\u1081\u1004\u101e\u1010\u1011\u1015\u1019\u101a\u101b\u101c\u101d\u1022\u103b\u103c])([\u103b\u103c])?(\u0020)/g, "$1$2a$3");
+        output = output.replaceAll(/(\u0020)([\u1075-\u1081\u1004\u101e\u1010\u1011\u1015\u1019\u101a\u101b\u101c\u101d\u1022\u103b\u103c])([\u103b\u103c])?(\u0020)/g, "$1$2$3a$4");
+
+
+        // ၵႆ ပိၼ်ႇပဵၼ် ၵၺ်
+        output = output.replaceAll(/\u1086/g, "\u107a\u103a");
+
+        // ဢပ် - ဢaပ်
+        output = output.replaceAll(/([\u1075-\u1081\u1004\u101e\u1010\u1011\u1015\u1019\u101a\u101b\u101c\u101d\u1022])([\u1075-\u1081\u1004\u101e\u1010\u1011\u1015\u1019\u101a\u101b\u101c\u101d\u1022])(\u103a)/g, "$1a\u030c$2$3");
+
+        // o - ဢူဝ်
+        output = output.replaceAll(/([^\u102d])\u1030\u101d\u103a/g, "$1o\u030c");
+        // ဢူမ် ၊ ဢိူမ် ( ၵူ becomes ku but ၵူမ် must become kom )
+        output = output.replaceAll(/([^\u102d])(\u1030)([\u1075-\u1081\u1004\u101e\u1010\u1011\u1015\u1019\u101a\u101b\u101c\u101d\u1022])(\u103a)/g, "$1o\u030c$3$4");
+        // Omit - လိုဝ် ၊ ၵိူဝ်
+        output = output.replaceAll(/(\u102d\u102f|\u1030)\u101d\u103a/g, "$1");
+
+        // Shan Consonants
+
+        // k - ၵ
+        output = output.replaceAll(/\u1075\u103a?/g, "k");
+        // kh - ၶ
+        output = output.replaceAll(/\u1076\u103a?/g, "kh");
+        // ng - င
+        output = output.replaceAll(/\u1004\u103a?/g, "ng");
+        // ts - ၸ
+        output = output.replaceAll(/\u1078\u103a?/g, "j");
+        // s - သ
+        output = output.replaceAll(/\u101e\u103a?/g, "s");
+        // i - ၵႆ ၊ ၵၺ်
+        output = output.replaceAll(/\u1086|\u107a\u103a/g, "i");
+        // ny - ၺ
+        output = output.replaceAll(/\u107a/g, "ny");
+        // t - တ
+        output = output.replaceAll(/\u1010\u103a?/g, "t");
+        // th - ထ
+        output = output.replaceAll(/\u1011\u103a?/g, "th");
+        // n - ၼ
+        output = output.replaceAll(/\u107c\u103a?/g, "n");
+        // p - ပ
+        output = output.replaceAll(/\u1015\u103a?/g, "p");
+        // ph - ၽ
+        output = output.replaceAll(/\u107d\u103a?/g, "ph");
+        // f - ၾ
+        output = output.replaceAll(/\u107e\u103a?/g, "f");
+        // m - မ
+        output = output.replaceAll(/\u1019\u103a?/g, "m");
+        // y - ယ
+        output = output.replaceAll(/\u101a\u103a?/g, "y");
+        // r - ရ
+        output = output.replaceAll(/\u101b\u103a?/g, "r");
+        // r - ြ
+        output = output.replaceAll(/\u103c/g, "r");
+        // l - လ
+        output = output.replaceAll(/\u101c\u103a?/g, "l");
+        // eao - ဢႅဝ်
+        output = output.replaceAll(/\u1085\u101d\u103a/g, "e\u030cao");
+        // ဝ - ဝ်
+        output = output.replaceAll(/\u101d\u103a/g, "o");
+        // w - ဝ
+        output = output.replaceAll(/\u101d/g, "w");
+        // h - ႁ
+        output = output.replaceAll(/\u1081\u103a?/g, "h");
+        // ‘ - ဢ
+        output = output.replaceAll(/\u1022/g, "ʼ");
+        // y - ျ
+        output = output.replaceAll(/\u103b/g, "y");
+        //
+        output = output.replaceAll(/\u1036/g, "a\u030cm");
+
+        // End Tai Consonants
+
+
+        // au - ဢေႃ ၊ ဢွ
+        output = output.replaceAll(/(\u1031\u1083)|\u103d/g, "a\u030cu");
+        // ue - ဢို
+        output = output.replaceAll(/\u102d\u102f/g, "u\u030ce");
+        // oe - ဢိူ
+        output = output.replaceAll(/\u102d\u1030/g, "o\u030ce");
+        // aa - ဢႃ ၊ ဢၢ
+        output = output.replaceAll(/\u1083|\u1062/g, "a\u030ca");
+        // i - ဢိ
+        output = output.replaceAll(/\u102d/g, "i\u030c");
+        // ii - ဢီ
+        output = output.replaceAll(/\u102e/g, "i\u030ci");
+        // ae - ဢေ ၊ ဢဵ
+        output = output.replaceAll(/\u1031|\u1035/g, "a\u030ce");
+        // e - ဢႄ ၊ ဢႅ
+        output = output.replaceAll(/\u1084|\u1085/g, "e\u030c");
+        // u - ဢု
+        output = output.replaceAll(/\u102f/g, "u\u030c");
+        // uu - ဢူ
+        output = output.replaceAll(/\u1030/g, "u\u030c");
+        // aue - ဢႂ်
+        output = output.replaceAll(/(\u1082\u103a)|(\u103a\u1082)/g, "a\u030cue");
+        // w - ဢႂ
+        output = output.replaceAll(/\u1082/g, "w");
+
+        /**
+         * တႃႇတူၼ်းသဵင် 6 တူၼ်း
+         * ယၵ်း ၊ ယၵ်းၸမ်ႈ ၊ ၸမ်ႈၼႃႈ ၊ ၸမ်ႈတႂ်ႈ ၊ ယၵ်းၶိုၼ်ႈ
+         */
+        // ယၵ်း
+        output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u1087/g, "$1$2\u0300$4");
+        // ယၵ်းၸမ်ႈ
+        output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u1088/g, "$1$2\u0304$4");
+        // ၸမ်ႈၼႃႈ
+        output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u1038/g, "$1$2\u0301$4");
+        // ၸမ်ႈတႂ်ႈ
+        output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})[\u1089\u1037]/g, "$1$2\u0302\u0330$4");
+        // ယၵ်းၶိုၼ်ႈ
+        output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u108a/g, "$1$2\u1dc8$4");
+        // Convert - ʼa => a
+//        output = output.replaceAll("ʼa[]", "a ");
+        output = output.replaceAll(/([ .?,!])?ʼa([ .?,!])/g, "$1a$2");
+
+        // ။ -> .
+        output = output.replaceAll(/\u104b/g, ".");
+        // ၊ -> ,
+        output = output.replaceAll(/\u104a/g, ",");
+
+        return output;
+}
+
 export function engToTai(input) {
     let output = input
 
