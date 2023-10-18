@@ -1,6 +1,6 @@
 import syllable_break from "./ShanSyllableBreak";
 
-export function taiToEng(input) {
+export function taiToEng(input, includeToneMarks) {
         console.log(input)
         // Syllable break the input
         let output = syllable_break(input);
@@ -108,20 +108,41 @@ export function taiToEng(input) {
         // w - ဢႂ
         output = output.replaceAll(/\u1082/g, "w");
 
+
+
         /**
          * တႃႇတူၼ်းသဵင် 6 တူၼ်း
          * ယၵ်း ၊ ယၵ်းၸမ်ႈ ၊ ၸမ်ႈၼႃႈ ၊ ၸမ်ႈတႂ်ႈ ၊ ယၵ်းၶိုၼ်ႈ
          */
-        // ယၵ်း
-        output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u1087/g, "$1$2\u0300$4");
-        // ယၵ်းၸမ်ႈ
-        output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u1088/g, "$1$2\u0304$4");
-        // ၸမ်ႈၼႃႈ
-        output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u1038/g, "$1$2\u0301$4");
-        // ၸမ်ႈတႂ်ႈ
-        output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})[\u1089\u1037]/g, "$1$2\u0302\u0330$4");
-        // ယၵ်းၶိုၼ်ႈ
-        output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u108a/g, "$1$2\u1dc8$4");
+
+        if (includeToneMarks == true) {
+
+            // ယၵ်း
+            output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u1087/g, "$1$2\u0300$4");
+            // ယၵ်းၸမ်ႈ
+            output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u1088/g, "$1$2\u0304$4");
+            // ၸမ်ႈၼႃႈ
+            output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u1038/g, "$1$2\u0301$4");
+            // ၸမ်ႈတႂ်ႈ
+            output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})[\u1089\u1037]/g, "$1$2\u0302\u0330$4");
+            // ယၵ်းၶိုၼ်ႈ
+            output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u108a/g, "$1$2\u1dc8$4");
+        
+        } else {
+            // ယၵ်း
+            output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u1087/g, "$1$2$4");
+            // ယၵ်းၸမ်ႈ
+            output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u1088/g, "$1$2$4");
+            // ၸမ်ႈၼႃႈ
+            output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u1038/g, "$1$2$4");
+            // ၸမ်ႈတႂ်ႈ
+            output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})[\u1089\u1037]/g, "$1$2$4");
+            // ယၵ်းၶိုၼ်ႈ
+            output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u108a/g, "$1$2$4");
+            // ပဝ်ႇ
+            output = output.replaceAll(/\u030c/g, "");
+        }
+        
         // Convert - ʼa => a
 //        output = output.replaceAll("ʼa[]", "a ");
         output = output.replaceAll(/([ .?,!])?ʼa([ .?,!])/g, "$1a$2");
@@ -144,9 +165,9 @@ export function engToTai(input) {
 
     // const checkIsToneMarkIncludingOrNot = /(?!.*(?:\u030c|\u0300|\u0304|\u0301|\u0302\u0330|\u1dc8))[\s\S]*/;
     // const checkIsToneMarkIncludingOrNot = /(?!.*(?:\\u030c|\\u0300|\\u0304|\\u0301|\\u0302\\u0330|\\u1dc8)).*/;
-    const checkIsToneMarkIncludingOrNot = /(?<=^(\u006b|\u006b\u0068|\u006e\u0067|\u006a|\u0073|\u006e\u0079|\u0074|\u0074\u0068|\u006e|\u0070|\u0070\u0068|\u0066|\u006d|\u0079|\u0072|\u006c|\u0077|\u0068|ʼ)*)(?!.*(?:\\u030c|\\u0300|\\u0304|\\u0301|\\u0302\\u0330|\\u1dc8)).*/;
+    const includToneMarks = /[\u030c|\u0300|\u0304|\u0301|\u0302\u0330|\u1dc8]/g;
 
-    if (!checkIsToneMarkIncludingOrNot.test(output)) {
+    if (!includToneMarks.test(output)) {
         output = output.replaceAll(/(\u006b|\u006b\u0068|\u006e\u0067|\u006a|\u007a|\u006a|\u0073|\u006e\u0079|\u0074|\u0074\u0068|\u006e|\u0070|\u0070\u0068|\u0066|\u006d|\u0079|\u0072|\u006c|\u0077|\u0068|ʼ)([\u0061\u0065\u0069\u006f\u0075])/g, "$1$2\u030c");
     }
   
