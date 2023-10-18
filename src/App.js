@@ -45,7 +45,7 @@ function App() {
 
       <button name='btConvert' type='button' onClick={handleConvert}>Convert</button>
       <span  hidden={!shn2Eng}>
-        <input type='checkbox' value={excludeTones} checked={excludeTones} onClick={() => setExcludeTones(!excludeTones)} /> Omit Tones
+        <input type='checkbox' value={excludeTones} checked={excludeTones} onClick={() => setExcludeTones(!excludeTones)} /> Exclude Tone Marks
       </span>
 
       <br/>
