@@ -30,12 +30,24 @@ function App() {
 
   return (
     <div className="App">
-      <input type='radio' radioGroup='rg' value={shn2Eng} checked={shn2Eng} onClick={() => setShn2Eng(true)} /> 
-      Shan to English 
-      <input type='radio' radioGroup='rg' value={shn2Eng} checked={!shn2Eng} onClick={() => setShn2Eng(false)}/>
-      English to Shan 
+
+      <text>Shan Translit</text>
+
       <br />
       <br />
+
+      <span className='radio'>
+        
+        <input type='radio' radioGroup='rg' value={shn2Eng} checked={shn2Eng} onClick={() => setShn2Eng(true)} /> 
+        Shan to English
+      </span>
+      <span className='radio'>
+
+        <input type='radio' radioGroup='rg' value={shn2Eng} checked={!shn2Eng} onClick={() => setShn2Eng(false)}/>
+        English to Shan 
+      </span>
+      <br />
+      
       <textarea name='input' value={inputText}
       onChange={(event) => setInputText(event.target.value)}
       />
@@ -43,7 +55,7 @@ function App() {
       <br/>      
       <br/>
 
-      <button name='btConvert' type='button' onClick={handleConvert}>Convert</button>
+      <button name='btConvert' type='button' onClick={handleConvert} id='btnConvert'>Convert</button>
       <span  hidden={!shn2Eng}>
         <input type='checkbox' value={excludeTones} checked={excludeTones} onClick={() => setExcludeTones(!excludeTones)} /> Exclude Tone Marks
       </span>
