@@ -115,7 +115,7 @@ export function taiToEng(input, includeToneMarks) {
          * ယၵ်း ၊ ယၵ်းၸမ်ႈ ၊ ၸမ်ႈၼႃႈ ၊ ၸမ်ႈတႂ်ႈ ၊ ယၵ်းၶိုၼ်ႈ
          */
 
-        if (includeToneMarks == true) {
+        if (includeToneMarks === true) {
 
             // ယၵ်း
             output = output.replaceAll(/([khgjzsytnpfmrlwaʼ])([aeiou])(\u030c)([a-z]{0,3})\u1087/g, "$1$2\u0300$4");
